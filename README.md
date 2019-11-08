@@ -54,9 +54,9 @@ Launch the script.sh in your terminal. In case you use windows try to replicates
 
 Once the server launched launche client.py. You will be prompted to enter a query, only two possible queries are possible: get or append.
 
-To get the value of a variable from server cache, type: "get:<variable name>". USE THE QUOTES.
+To get the value of a variable from server cache, type: "get:variable_name". USE THE QUOTES.
 
-To append new variables and their value to the server cache, type: "append:<variable name>:<variable value>. Do not forget the quotes.
+To append new variables and their value to the server cache, type: "append:variable_name:variable_value". Do not forget the quotes.
 
 You can also use the fuctions get_data(data) and append_data(variable,value) in the python script if you want to use the script 
 with no interaction.
