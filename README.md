@@ -21,10 +21,10 @@ server cache and fetch the data from its variable name.
 The LRU cache is a class containing a deque of variables sorted by the last time they were used. Then there is a dictionary 
 having as a key the variables names and the value of the variables in 'valuemap', the other dictionary contain the time of most 
 recent usage of a variable. Once the cache is full and a new value needs to be appended, the last recently used variables are 
-discarded until there will be enough space for the new variable and its value to be appended.
+discarded until there will be enough space for the new variable and its value to be appended. The default cache size is 1024 but you can change it from the command line using the option -c.
 
 The variables of the cache expire when they exceed the time out after their most recent usage. The default value of the time out
-is 10s but it can be changed. The clean up is done once new values
+is 10s but it can be changed using the option -t in the command line. The clean up is done once new values
 are appended to the cache. (I taught that keeping a thread to lookup for timeouted variables would add some complexity and I just
 do not see the need to clean up the cache if nothing is happening. Also deleting variables just for being timeouted increases the 
 cache misses ratio. Nevertheless, the clean up is performed whenever a new value is appended).
