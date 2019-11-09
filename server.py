@@ -3,7 +3,6 @@ import socket
 import getopt	 
 import sys
 import random
-import threading
 import time
 import lru
 
@@ -87,18 +86,44 @@ def client(port):
 
 if __name__=='__main__':
     #The script takes an argument of the port the server is bound to
+    csize=1024
+    timeout=10
     argv = sys.argv[1:]
     try:
-        opts, args = getopt.getopt(argv, 'p')
+        opts, args = getopt.getopt(argv, 'hp:t:c:')
     except getopt.GetoptError:
         #Print a message or do something useful
         print('Something went wrong!')
         sys.exit(2)
-    try:
-        port = int(args[0])
-    except:
-        print("The port value is not an integer")
-        sys.exit()
+    print(opts)
+    print(args)
+    for op,ar in opts:
+        print(op,ar)
+        if op=="-t":
+            try:
+                timeout=float(ar)
+            except:
+                print("The timeout value is not a number")
+                sys.exit()
+        elif op=="-c":
+            try:
+                csize=int(ar)
+            except:
+                print("The cache size value is not an integer")
+                sys.exit()
+        elif op=="-p":
+            try:
+                port = int(ar)
+            except:
+                print("The port value is not an integer")
+                sys.exit()
+        elif op=="-h":
+            print("Create a server with a LRU cache")
+            print("-p        Indicate the port value of the server, it is a mandatory argument")
+            print("-c        Indicate the size of the cache, the default value is 1024")
+            print("-t        Indicate the timeout after whiche the cache expires, default value is 10s")
+            sys.exit()
+    print(timeout,csize,port)
     #Random location of the server to simulate geo distribution
     coor=[random.uniform(-90,90),random.uniform(-180,180)]
     portinfo={port:coor}
@@ -106,13 +131,9 @@ if __name__=='__main__':
     #Connect to the central server in port 10000
     client(10000)
     #Create the server cache
-    csize=1024
+    
     server_cache=lru.LRUcache(csize)
     #Ready to serve clients
     server()
     
     
-#tserver=threading.Thread(target=server,args=[])
-#tclient=threading.Thread(target=client,args=[])
-#tclient.start()
-#tserver.start()
