@@ -95,8 +95,6 @@ if __name__=='__main__':
         #Print a message or do something useful
         print('Something went wrong!')
         sys.exit(2)
-    print(opts)
-    print(args)
     for op,ar in opts:
         print(op,ar)
         if op=="-t":
@@ -123,17 +121,17 @@ if __name__=='__main__':
             print("-c        Indicate the size of the cache, the default value is 1024")
             print("-t        Indicate the timeout after whiche the cache expires, default value is 10s")
             sys.exit()
-    print(timeout,csize,port)
+    
     #Random location of the server to simulate geo distribution
     coor=[random.uniform(-90,90),random.uniform(-180,180)]
+    print("The server is located in {}, its port number is {}, its cache size {} and the cache timeout is {}".format(coor,port,csize,timeout))
     portinfo={port:coor}
     num_central_server=3
     #Connect to the central server in port 10000
     client(10000)
     #Create the server cache
     
-    server_cache=lru.LRUcache(csize)
+    server_cache=lru.LRUcache(csize,timeout=timeout)
     #Ready to serve clients
     server()
-    
-    
+  
